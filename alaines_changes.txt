@@ -1,0 +1,8 @@
+4/13/22:
+
+Removed some of the dynamic memory from Movie.h (left in some of the big three, remove later?)
+Changed directors in Movie.h to be a vector (it won't be very long, a dynamic string array is more difficult)
+Created Heap.h and Heap.cpp
+Did some light testing on inserting into a Heap
+Did some light testing on extracting from a Heap
+Needs more tests!

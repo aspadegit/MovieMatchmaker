@@ -5,18 +5,19 @@ Movie::Movie()
 {
     titleId = "no ID set";
     movieTitle = "no title set";
-    string* directors = nullptr;
-    string* genres = new string[3]; //there will be 3 genres
-    float averageRating = -1;
-    float similarityScore = 0;
+    averageRating = -1;
+    similarityScore = 0;
 }
 
-Movie::Movie(string titleId, string movieTitle, string* directors, string* genres, float averageRating, float similarityScore)
+Movie::Movie(string titleId, string movieTitle, vector<string> directors, string* genres, float averageRating, float similarityScore)
 {
     this->titleId = titleId;
     this->movieTitle = movieTitle;
     this->directors = directors;
-    this->genres = genres;
+    for(int i = 0; i < 3; i++)
+    {
+        this->genres[i] = genres[i];
+    }
     this->averageRating = averageRating;
     this->similarityScore = similarityScore;
 }
@@ -25,8 +26,6 @@ Movie::Movie(string titleId, string movieTitle, float similarityScore)
 {
     this->titleId = titleId;
     this->movieTitle = movieTitle;
-    string* directors = nullptr;
-    string* genres = new string[3]; //there will be 3 genres
     float averageRating = -1;
     this->similarityScore = similarityScore;
 
@@ -35,8 +34,6 @@ Movie::Movie(string titleId, string movieTitle, float similarityScore)
 //============================ BIG THREE ==================================================
 Movie::~Movie()
 {
-    delete[] directors;
-    delete[] genres;
 }
 Movie::Movie(const Movie& other)
 {
@@ -73,7 +70,7 @@ string Movie::GetTitle()
 {
     return movieTitle;
 }
-string* Movie::GetDirectors()
+vector<string>& Movie::GetDirectors()
 {
     return directors;
 }
@@ -84,6 +81,10 @@ string* Movie::GetGenres()
 float Movie::GetRating()
 {
     return averageRating;
+}
+float Movie::GetSimilarity()
+{
+    return similarityScore;
 }
 
 
@@ -102,12 +103,7 @@ void Movie::copyData(const Movie& other)
     averageRating = other.averageRating;
     similarityScore = other.similarityScore;
 
-    directors = new string[other.directors->length()];
-
-    for(int i = 0; i < other.directors->length(); i++)
-    {
-        directors[i] = other.directors[i];
-    }
+    directors = other.directors;
 
     for(int i = 0; i < 3; i++)
     {
