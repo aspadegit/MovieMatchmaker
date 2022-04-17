@@ -1,3 +1,4 @@
+#pragma once
 #include "Movie.h"
 class Heap
 {
