@@ -6,3 +6,13 @@ Created Heap.h and Heap.cpp
 Did some light testing on inserting into a Heap
 Did some light testing on extracting from a Heap
 Needs more tests!
+
+4/16/22:
+Changed up Movie.h somewhat (genres array is now a vector)
+    Added functions to read in info
+    yeah
+Datasets folder contains the adjusted Datasets
+Created Director.h (it was necessary to read in the director)
+Function for reading stuff is in main()
+**NOTE: REGEX FOR GENRES IS BROKEN! NEEDS FIXING**
+No work on the heap today
