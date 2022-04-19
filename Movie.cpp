@@ -126,12 +126,11 @@ void Movie::ReadTitleBasics(string currentLine)
     if(genreList != "\\N")
     {
 
-        /* BROKEN !!! NEEDS FIXING */
         std::regex comma(",");
         std::sregex_token_iterator iter2(genreList.begin(), genreList.end(), comma, -1);
         std::sregex_token_iterator end;
         for(; iter2 != end; iter2++)
-            genres.push_back(*iter);
+            genres.push_back(*iter2);
           
         
     }
