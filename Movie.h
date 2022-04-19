@@ -5,6 +5,7 @@
 #include <iostream>
 #include <regex>
 #include <unordered_map>
+#include <algorithm>
 #include "Director.h"
 using std::cout;
 using std::endl;

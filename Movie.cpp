@@ -87,7 +87,15 @@ float Movie::GetSimilarity()
 //============================ BEHAVIORS ==================================================
 void Movie::DetermineSimilarity(const Movie& toCompare)
 {
-    //TODO: implement this
+
+    //Uses set_intersection to scrub both vectors and generate new vectors with only
+    //the directors and genres they have in common.
+    vector<string> inCommonDirectors;
+    vector<string> inCommonGenres;
+    std::set_intersection(this->directors.begin(), this->directors.end(), toCompare.directors.begin(), toCompare.directors.end(), std::back_inserter(inCommonDirectors));
+    std::set_intersection(this->genres.begin(), this->genres.end(), toCompare.genres.begin(), toCompare.genres.end(), std::back_inserter(inCommonGenres));
+
+    similarityScore = averageRating * ((float)inCommonDirectors.size() + (float)inCommonGenres.size());
 }
 
 
@@ -128,6 +136,10 @@ void Movie::ReadTitleBasics(string currentLine)
         
     }
 
+    //Sort genre vector for easier calculation in the similarity score function
+    //later on.
+    std::sort(genres.begin(), genres.end());
+
 }
 
 void Movie::ReadTitleCrew(string directorIdList, std::unordered_map<string,Director>& directorList)
@@ -142,6 +154,9 @@ void Movie::ReadTitleCrew(string directorIdList, std::unordered_map<string,Direc
         directors.push_back(directorList[*iter2].GetName());
     }
 
+    //Sort vector of directors for easier calculation in the similarity score function
+    //later on.
+    std::sort(directors.begin(), directors.end());
 }
 
 void Movie::ReadTitleRatings(string stringRating)
