@@ -26,7 +26,8 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
     
     input.close();
     lineCounter = 0;
-    cout << '\r' << "                                                 ";
+    cout << '\r' << "                                 ";
+
     //read directors
     input.open("../smalldatasets/name_basics.tsv");
     while(getline(input, currentLine))
@@ -43,7 +44,8 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
     input.close();
 
     lineCounter = 0;
-    cout << '\r' << "                                                 ";
+    cout << '\r' << "                                    ";
+
     //read crew
     input.open("../smalldatasets/title_crew.tsv");
     while(getline(input, currentLine))
@@ -66,8 +68,10 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
 
     ifstream inputTitle;
     inputTitle.open("../smalldatasets/title_ratings.tsv");
+
     lineCounter = 0;
-    cout << '\r' << "                                                 ";
+    cout << '\r' << "                                    ";
+
     while(getline(inputTitle, currentLine))
     {
 
@@ -85,7 +89,7 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
 
     }
 
-    cout << '\r' << "Complete!                                                 " << endl << endl;
+    cout << '\r' << "Complete!                               " << endl << endl;
 
     inputTitle.close();
     for (auto i = movies.begin(); i != movies.end(); i++)
@@ -114,12 +118,12 @@ int main()
         return 0;
     }
 
-
     for (auto i = movies.begin(); i != movies.end(); i++)
     {
         i->second.DetermineSimilarity(*inputMovie);
     }
 
+    //Starts a timer to measure time spend on heap
     cout << "Running heap test..." << endl;
     auto start = chrono::high_resolution_clock::now();
 
@@ -146,6 +150,7 @@ int main()
         cout << fixed << setprecision(2) << heapTop.GetSimilarity() << endl;
     }
 
+    //Calculates time spend on heap insertion/access
     auto stop = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
     cout << endl << "Operation time was " << duration.count() << " ms." << endl;
