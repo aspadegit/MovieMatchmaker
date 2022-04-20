@@ -26,7 +26,7 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
     
     input.close();
     lineCounter = 0;
-    cout << '\r' << "                                 ";
+    cout << '\r' << "                                    ";
 
     //read directors
     input.open("../smalldatasets/name_basics.tsv");
@@ -89,7 +89,7 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
 
     }
 
-    cout << '\r' << "Complete!                               " << endl << endl;
+    cout << '\r' << "Complete!                          " << endl << endl;
 
     inputTitle.close();
     for (auto i = movies.begin(); i != movies.end(); i++)
