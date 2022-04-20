@@ -6,9 +6,9 @@
 
 Heap::Heap()
 {
-    capacity = 5;
+    capacity = 600000;
     size = 0;
-    heapStructure = new Movie[5];
+    heapStructure = new Movie[600000];
 }
 
 Heap::Heap(int capacity)

@@ -18,7 +18,7 @@ Movie::Movie(string titleId, string movieTitle, vector<string> directors, vector
     this->averageRating = averageRating;
     this->similarityScore = similarityScore;
 }
-        
+
 Movie::Movie(string titleId, string movieTitle, float similarityScore)
 {
     this->titleId = titleId;
@@ -45,15 +45,15 @@ const Movie& Movie::operator=(const Movie& other)
 //============================ OPERATORS ==================================================
 bool Movie::operator<(const Movie& other)
 {
-    return titleId < other.titleId;
+    return similarityScore < other.similarityScore;
 }
 bool Movie::operator>(const Movie& other)
 {
-    return titleId > other.titleId;
+    return similarityScore > other.similarityScore;
 }
 bool Movie::operator==(const Movie& other)
 {
-    return titleId == other.titleId;
+    return similarityScore == other.similarityScore;
 }
 
 
@@ -103,13 +103,13 @@ void Movie::DetermineSimilarity(const Movie& toCompare)
 
 void Movie::ReadTitleBasics(string currentLine)
 {
-    
+
     //tab separate values
     std::regex rgx("\t");
 
     //iterator for each tab separated value
     std::sregex_token_iterator iter(currentLine.begin(), currentLine.end(), rgx, -1);
-    
+
     titleId = *iter;
     iter++;
     iter++;
@@ -121,18 +121,18 @@ void Movie::ReadTitleBasics(string currentLine)
     iter++;
     iter++;
     string genreList = *iter;
-    
+
     //comma separated genres
-    if(genreList != "\\N")
+    if (genreList != "\\N")
     {
 
         std::regex comma(",");
         std::sregex_token_iterator iter2(genreList.begin(), genreList.end(), comma, -1);
         std::sregex_token_iterator end;
-        for(; iter2 != end; iter2++)
+        for (; iter2 != end; iter2++)
             genres.push_back(*iter2);
-          
-        
+
+
     }
 
     //Sort genre vector for easier calculation in the similarity score function
@@ -141,14 +141,14 @@ void Movie::ReadTitleBasics(string currentLine)
 
 }
 
-void Movie::ReadTitleCrew(string directorIdList, std::unordered_map<string,Director>& directorList)
+void Movie::ReadTitleCrew(string directorIdList, std::unordered_map<string, Director>& directorList)
 {
     //comma separated directors
     std::regex comma(",");
     std::sregex_token_iterator iter2(directorIdList.begin(), directorIdList.end(), comma, -1);
     std::sregex_token_iterator end;
 
-    for(; iter2 != end; iter2++)
+    for (; iter2 != end; iter2++)
     {
         directors.push_back(directorList[*iter2].GetName());
     }
@@ -169,14 +169,14 @@ void Movie::Print()
     cout << "Title ID: " << titleId << endl;
     cout << "Title: " << movieTitle << endl;
     cout << "Genres: ";
-    for(string s : genres)
+    for (string s : genres)
     {
         cout << s << ", ";
     }
     cout << endl;
 
     cout << "Directors: ";
-    for(string s : directors)
+    for (string s : directors)
         cout << s << ", ";
     cout << endl;
     cout << "Average Rating: " << averageRating << endl;
@@ -199,7 +199,6 @@ void Movie::copyData(const Movie& other)
     similarityScore = other.similarityScore;
 
     directors = other.directors;
-    genres = other.genres;    
+    genres = other.genres;
 
 }
-
