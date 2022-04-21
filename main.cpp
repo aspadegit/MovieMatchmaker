@@ -3,51 +3,37 @@
 #include <unordered_map>
 #include <chrono>
 #include "Heap.h"
+#include "MergeSort.h"
 using namespace std;
 
 Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordered_map<string, Director>& directors)
 {
     //read movies
-    ifstream input("../datasets/title_basics.tsv");
+    ifstream input("../smalldatasets/title_basics.tsv");
     string currentLine;
 
-    int lineCounter = 0;
-    cout << "Current file and line:" << endl;
     while(getline(input, currentLine))
     {
         Movie newMovie;
         newMovie.ReadTitleBasics(currentLine);
-
-        cout << '\r' << "title_basics.tsv, " << lineCounter;
-        lineCounter++;
-
         movies[newMovie.GetId()] = newMovie;
     }
     
     input.close();
-    lineCounter = 0;
-    cout << '\r' << "                                    ";
 
     //read directors
-    input.open("../datasets/name_basics.tsv");
+    input.open("../smalldatasets/name_basics.tsv");
     while(getline(input, currentLine))
     {
         Director newDirector;
         newDirector.ReadInput(currentLine);
-
-        cout << '\r' << "name_basics.tsv, " << lineCounter;
-        lineCounter++;
-
         directors[newDirector.GetId()] = newDirector;
     }
 
     input.close();
 
-    lineCounter = 0;
-    cout << '\r' << "                                    ";
-
     //read crew
-    input.open("../datasets/title_crew.tsv");
+    input.open("../smalldatasets/title_crew.tsv");
     while(getline(input, currentLine))
     {
         //tab separate values
@@ -57,9 +43,6 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
         iter++;
         string directorIdList = *iter;
 
-        cout << '\r' << "title_crew.tsv, " << lineCounter;
-        lineCounter++;
-
         movies[id].ReadTitleCrew(directorIdList, directors);
 
     }
@@ -67,10 +50,7 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
     input.close();
 
     ifstream inputTitle;
-    inputTitle.open("../datasets/title_ratings.tsv");
-
-    lineCounter = 0;
-    cout << '\r' << "                                    ";
+    inputTitle.open("../smalldatasets/title_ratings.tsv");
 
     while(getline(inputTitle, currentLine))
     {
@@ -82,14 +62,9 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
         iter++;
         string stringRating = *iter;
 
-        cout << '\r' << "title_ratings.tsv, " << lineCounter;
-        lineCounter++;
-
         movies[id].ReadTitleRatings(stringRating);
 
     }
-
-    cout << '\r' << "Complete!                          " << endl << endl;
 
     inputTitle.close();
     for (auto i = movies.begin(); i != movies.end(); i++)
@@ -123,7 +98,7 @@ int main()
         i->second.DetermineSimilarity(*inputMovie);
     }
 
-    //Starts a timer to measure time spend on heap
+    //Starts a timer to measure time spent on heap
     cout << "Running heap test..." << endl;
     auto start = chrono::high_resolution_clock::now();
 
@@ -153,9 +128,46 @@ int main()
     //Calculates time spend on heap insertion/access
     auto stop = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
-    cout << endl << "Operation time was " << duration.count() << " ms." << endl;
+    cout << endl << "Operation time was " << duration.count() << " ms." << endl << endl;
     
-    //TODO: Add stuff from red-black/binary tree data structire
-   
+    //Starts a timer to measure time spent on mergesort
+    cout << "Running mergesort test..." << endl;
+    start = chrono::high_resolution_clock::now();
+
+    Movie *arr = new Movie[movies.size()];
+
+    int index = 0;
+    for (auto i = movies.begin(); i != movies.end(); i++)
+    {
+        arr[index] = i->second;
+        index++;
+    }
+
+    MergeSort(arr, 0, movies.size() - 1);
+
+    cout << endl << "~~~MergeSort Algorithm Test~~~" << endl;
+
+    cout << endl << "Recommended Movies and their Similarity Scores: " << endl << endl;
+
+    int printMovies = 10;
+    for (int i = 0; i < printMovies; i++)
+    {
+        Movie similarMovie = arr[0];
+
+        //Checks for identical movie to user input.
+        if (similarMovie.GetTitle() == userInput) {
+            printMovies++;
+            continue;
+        }
+
+        cout << '\"' << similarMovie.GetTitle() << '\"' << ", ";
+        cout << fixed << setprecision(2) << similarMovie.GetSimilarity() << endl;
+        cout << arr[300000].GetTitle();
+    }
+
+    //Calculates time spend on mergesort algorithm
+    stop = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+    cout << endl << "Operation time was " << duration.count() << " ms." << endl << endl;
 }
 
