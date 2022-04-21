@@ -9,7 +9,7 @@ using namespace std;
 Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordered_map<string, Director>& directors)
 {
     //read movies
-    ifstream input("../smalldatasets/title_basics.tsv");
+    ifstream input("../datasets/title_basics.tsv");
     string currentLine;
 
     while(getline(input, currentLine))
@@ -22,7 +22,7 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
     input.close();
 
     //read directors
-    input.open("../smalldatasets/name_basics.tsv");
+    input.open("../datasets/name_basics.tsv");
     while(getline(input, currentLine))
     {
         Director newDirector;
@@ -33,7 +33,7 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
     input.close();
 
     //read crew
-    input.open("../smalldatasets/title_crew.tsv");
+    input.open("../datasets/title_crew.tsv");
     while(getline(input, currentLine))
     {
         //tab separate values
@@ -50,7 +50,7 @@ Movie* ReadData(string userInput, unordered_map<string, Movie>& movies, unordere
     input.close();
 
     ifstream inputTitle;
-    inputTitle.open("../smalldatasets/title_ratings.tsv");
+    inputTitle.open("../datasets/title_ratings.tsv");
 
     while(getline(inputTitle, currentLine))
     {
