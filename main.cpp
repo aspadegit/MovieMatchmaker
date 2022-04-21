@@ -143,7 +143,7 @@ int main()
         index++;
     }
 
-    MergeSort(arr, 0, movies.size() - 1);
+    MergeSort(arr, 0, index);
 
     cout << endl << "~~~MergeSort Algorithm Test~~~" << endl;
 
@@ -152,7 +152,7 @@ int main()
     int printMovies = 10;
     for (int i = 0; i < printMovies; i++)
     {
-        Movie similarMovie = arr[0];
+        Movie similarMovie = arr[i];
 
         //Checks for identical movie to user input.
         if (similarMovie.GetTitle() == userInput) {
@@ -162,9 +162,8 @@ int main()
 
         cout << '\"' << similarMovie.GetTitle() << '\"' << ", ";
         cout << fixed << setprecision(2) << similarMovie.GetSimilarity() << endl;
-        cout << arr[300000].GetTitle();
     }
-
+    delete[] arr;
     //Calculates time spend on mergesort algorithm
     stop = chrono::high_resolution_clock::now();
     duration = chrono::duration_cast<chrono::milliseconds>(stop - start);

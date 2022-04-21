@@ -2,22 +2,25 @@
 #include "MergeSort.h"
 
 void Merge(Movie arr[], int left, int middle, int right) {
-	Movie* leftArr = new Movie[middle - left + 1];
-	Movie* rightArr = new Movie[right - middle];
-
-	for (int i = 0; i < (middle - left + 1); i++) 
-	{
-		leftArr[0] = arr[i + left];
+	if (left >= right || middle > right) {
+		return;
 	}
-	for (int i = 0; i < (right - middle); i++) 
+	Movie *leftArr = new Movie[middle - left + 1];
+	Movie *rightArr = new Movie[right - middle];
+
+	for (int i = 0; i < (middle - left  + 1); i++)
 	{
-		rightArr[0] = arr[i + middle + 1];
+		leftArr[i] = arr[i + left];
+	}
+	for (int i = 0; i < (right - middle) && i + middle + 1 < right; i++)
+	{
+		rightArr[i] = arr[i + middle + 1];
 	}
 
 	int leftIter = 0, rightIter = 0, arrIter = left;
-	while (leftIter < (middle - left + 1) && rightIter < (right - middle))
+	while (leftIter < (middle - left + 1 ) && rightIter < (right - middle) && arrIter < right)
 	{
-		if (leftArr[leftIter] < rightArr[rightIter])
+		if (leftArr[leftIter] > rightArr[rightIter])
 		{
 			arr[arrIter] = leftArr[leftIter];
 			leftIter++;
@@ -30,17 +33,21 @@ void Merge(Movie arr[], int left, int middle, int right) {
 		arrIter++;
 	}
 
-	while (leftIter < (middle - left + 1)) {
+	
+	while (leftIter < (middle - left + 1) && arrIter < right) {
 		arr[arrIter] = leftArr[leftIter];
 		arrIter++;
 		leftIter++;
 	}
 
-	while (rightIter < (right - middle)) {
+	while (rightIter < (right - middle) && arrIter < right) {
 		arr[arrIter] = rightArr[rightIter];
 		arrIter++;
 		rightIter++;
 	}
+	
+	delete[] leftArr;
+	delete[] rightArr;
 }
 
 void MergeSort(Movie arr[], int start, int end) {
@@ -49,7 +56,7 @@ void MergeSort(Movie arr[], int start, int end) {
 		return;
 	}
 
-	int middle = start + (end - start) / 2;
+	int middle = start + ((end - start) / 2);
 	MergeSort(arr, start, middle);
 	MergeSort(arr, middle + 1, end);
 	Merge(arr, start, middle, end);
